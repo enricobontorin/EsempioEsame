@@ -1,0 +1,23 @@
+{
+  "name": "esempioesame",
+  "version": "1.0.0",
+  "description": "esempio esame",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enricobontorin/EsempioEsame.git"
+  },
+  "author": "enrico bontorin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/enricobontorin/EsempioEsame/issues"
+  },
+  "homepage": "https://github.com/enricobontorin/EsempioEsame#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongoose": "^5.0.0-rc0"
+  }
+}

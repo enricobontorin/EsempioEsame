@@ -1,0 +1,87 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: "prova_assignment"
+  description: api di prova per l'esame
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: enrico bontorin
+    email: enricobontorin@gmail.com
+    url: https://git.heroku.com/gentle-temple-20538.git
+  license:
+    name: MIT
+    url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
+host: assignment.swagger.io
+basePath: /api
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /assignment:
+    get:
+      description: |
+        Return all assignment
+      operationId: findAllAssignment
+    
+      responses:
+        200:
+          description: assignment response
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Assignment'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      description: Creates a new assignment in the DB.  Duplicates are allowed
+      operationId: addAssignment
+      parameters:
+        - name: pet
+          in: body
+          description: Pet to add to the store
+          required: true
+          schema:
+            $ref: '#/definitions/Assignment'
+      responses:
+        200:
+          description: pet response
+          schema:
+            $ref: '#/definitions/Assignment'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+            
+
+
+definitions:
+  Assignment:
+    required:
+      - taskID 
+      - assignmentID
+      - workerID
+      - assignmentResult
+    properties:
+      taskID:
+        type: string
+      assignmentID:
+        type: string
+      workerID:
+        type: string
+      assignmentResult:
+        type: string
+  Error:
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string

@@ -10,12 +10,12 @@ const app = express();
 
 // instantiate mongoose
 mongoose.Promise = global.Promise;
-var options = {
+/*var options = {
     useMongoClient: true,
     user: 'admin',
     pass: 'admin'
-  };
-mongoose.connect('mongodb://admin:admin@ds235827.mlab.com:35827/exam', options);
+  };*/
+mongoose.connect('mongodb://admin:admin@ds235827.mlab.com:35827/exam'/*, options*/);
 const db = mongoose.connection;
 db.on('error', err => {
   console.error(`Error while connecting to DB: ${err.message}`);
@@ -102,7 +102,7 @@ router.route('/assignment/:assignmentID')
     })
 
     // delete the assignment with this id
-    // (accessed at DELETE http://localhost:8080/api/bears/:bear_id)
+    // (accessed at DELETE http://localhost:8080/api/assignment/:assignmentID)
     .delete(function (req, res) {
         Assignment.remove({
             assignmentID: req.params.assignmentID

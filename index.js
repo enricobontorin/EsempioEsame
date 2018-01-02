@@ -40,8 +40,8 @@ var router = express.Router();
 // route /bears
 router.route('/assignment')
 
-    // create a bear
-    // accessed at POST http://localhost:8080/api/bears
+    // create a assignment
+    // accessed at POST http://localhost:8080/api/assignment
     .post(function (req, res) {
         // create a new instance of the Bear model
         var assignment =  new Assignment();
@@ -67,35 +67,61 @@ router.route('/assignment')
         });
     });
 
-// route /bears/bear
+// route /assignment/assignmentID
 router.route('/assignment/:assignmentID')
     // get the assignment with that id
-    // (accessed at GET http://localhost:8080/api/assignment/:assignment_id)
+    // (accessed at GET http://localhost:8080/api/assignment/:assignmentID)
     .get(function (req, res) {
-        Assignment.find({assignmentID: req.params.assignmentID}, function (err, assignment) {
-            if (err) { res.send(err); }
-            res.json(assignment);
+        //console.log(req.params.assignmentID);
+        Assignment.findOne({assignmentID: req.params.assignmentID}, function (err, assignment) {
+            if (err) {
+              console.log("err");
+                        res.status(200).send(err)
+                    }
+            if (assignment) {  // Search could come back empty, so we should protect against sending nothing back
+                  res.status(200);
+                  res.json(assignment);
+
+            }
+            else {  // In case no assignment was found with the given query
+                res.status(404);
+                res.json({ message: 'No assignment found' });
+
+            }
+
         });
     })
 
     // update the assignment with this id
     // (accessed at PUT http://localhost:8080/api/assignment/:assignmentID)
     .put(function (req, res) {
+        //console.log("!!put")
+        // use our assignment model to find the assignment we want
+        Assignment.findOne({assignmentID:req.params.assignmentID}, function (err, assignment) {
+          if (err) {
+                      res.status(200).send(err)
+                  }
+          if (assignment) {  // Search could come back empty, so we should protect against sending nothing back
+            assignment.assignmentResult = req.body.assignmentResult;
+            // save the assignment
+            assignment.save(function (err) {
+                if (err) { res.send(err); }
+                //console.log("put ass:" + assignment)
+                res.status(200);
+                res.json(assignment);
+              });
+          } else {  // In case no assignment was found with the given query
 
-        // use our assignment model to find the bear we want
-        Assignment.find({assignmentID:req.params.assignmentID}, function (err, assignment) {
-            if (err) { res.send(err); }
+              res.status(404);
+              res.json({ message: 'No assignment found' });
+          }
+
+            //if (err) { res.send(err); }
             // update the assignment info
 
             //for(var i = 0; i < assignment.lenght; i++){
             //zero in quanto potrebbe ritornarmi più di una cosa e quindi devo vedere tutti i risultati, metto
             //zero perchè so che ritorna teoricamente qualcosa che dovrebbe essere univoco
-              assignment[0].assignmentResult = req.body.assignmentResult;
-            // save the assignment
-              assignment[0].save(function (err) {
-                  if (err) { res.send(err); }
-                  res.json(assignment);
-                });
 
 
         });
@@ -106,9 +132,22 @@ router.route('/assignment/:assignmentID')
     .delete(function (req, res) {
         Assignment.remove({
             assignmentID: req.params.assignmentID
-        }, function (err, bear) {
-            if (err) { res.send(err); }
-            res.json({ message: 'Successfully deleted' });
+        }, function (err, assignment) {
+            if (err) {
+              console.log("err");
+                        res.status(200).send(err)
+                    }
+            if (assignment.n != 0) {  // Search could come back empty, so we should protect against sending nothing back
+                  res.status(200);
+                  res.json({ message: 'Successfully deleted' });
+                  console.log("ass");
+            }
+            else {  // In case no assignment was found with the given query
+                res.status(404);
+                res.json({ message: 'No assignment found' });
+                console.log("else");
+            }
+
         });
     });
 
@@ -121,10 +160,10 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.header('Content-Type', 'application/json');
-    if (req.method == 'OPTIONS') {
+    /*if (req.method == 'OPTIONS') {
         res.header('Access-Control-Allow-Methods', 'PUT, POST, DELETE');
         return res.status(200).json({});
-    }
+    }*/
     // make sure we go to the next routes
     next();
 });

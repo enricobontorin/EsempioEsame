@@ -4,7 +4,7 @@
   "description": "esempio esame",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,14 @@
   "homepage": "https://github.com/enricobontorin/EsempioEsame#readme",
   "dependencies": {
     "express": "^4.16.2",
-    "mongoose": "^5.0.0-rc0"
+    "mongoose": "^5.0.0-rc0",
+    "node-fetch": "^1.7.3"
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true
+  },
+  "devDependencies": {
+    "jest": "^22.0.4"
   }
 }

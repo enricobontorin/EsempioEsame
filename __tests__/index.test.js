@@ -47,7 +47,7 @@ const postAssignment = function (newAssignment) {
 }
 
 const putAssignment = function (assignmentID, assignmentResult) {
-    //console.log(assignmentResult);
+
     return fetch(assignmentsRoot+'/'+assignmentID, {
         method: 'PUT',
         headers: {

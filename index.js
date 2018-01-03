@@ -43,9 +43,10 @@ router.route('/assignment')
     // create a assignment
     // accessed at POST http://localhost:8080/api/assignment
     .post(function (req, res) {
-        // create a new instance of the Bear model
+        // create a new instance of the Assignment model
         var assignment =  new Assignment();
-        // set the bears name (comes from the request)
+
+        // set the assignment name (comes from the request)
         assignment.taskID = req.body.taskID;
         assignment.assignmentID = req.body.assignmentID;
         assignment.workerID = req.body.workerID;
@@ -72,13 +73,13 @@ router.route('/assignment/:assignmentID')
     // get the assignment with that id
     // (accessed at GET http://localhost:8080/api/assignment/:assignmentID)
     .get(function (req, res) {
-        //console.log(req.params.assignmentID);
+
         Assignment.findOne({assignmentID: req.params.assignmentID}, function (err, assignment) {
             if (err) {
               console.log("err");
                         res.status(200).send(err)
                     }
-            if (assignment) {  // Search could come back empty, so we should protect against sending nothing back
+            if (assignment) {
                   res.status(200);
                   res.json(assignment);
 
@@ -95,18 +96,16 @@ router.route('/assignment/:assignmentID')
     // update the assignment with this id
     // (accessed at PUT http://localhost:8080/api/assignment/:assignmentID)
     .put(function (req, res) {
-        //console.log("!!put")
         // use our assignment model to find the assignment we want
         Assignment.findOne({assignmentID:req.params.assignmentID}, function (err, assignment) {
           if (err) {
                       res.status(200).send(err)
                   }
-          if (assignment) {  // Search could come back empty, so we should protect against sending nothing back
+          if (assignment) {
             assignment.assignmentResult = req.body.assignmentResult;
             // save the assignment
             assignment.save(function (err) {
                 if (err) { res.send(err); }
-                //console.log("put ass:" + assignment)
                 res.status(200);
                 res.json(assignment);
               });
@@ -115,9 +114,6 @@ router.route('/assignment/:assignmentID')
               res.status(404);
               res.json({ message: 'No assignment found' });
           }
-
-            //if (err) { res.send(err); }
-            // update the assignment info
 
             //for(var i = 0; i < assignment.lenght; i++){
             //zero in quanto potrebbe ritornarmi più di una cosa e quindi devo vedere tutti i risultati, metto
@@ -137,7 +133,7 @@ router.route('/assignment/:assignmentID')
               console.log("err");
                         res.status(200).send(err)
                     }
-            if (assignment.n != 0) {  // Search could come back empty, so we should protect against sending nothing back
+            if (assignment.n != 0) {
                   res.status(200);
                   res.json({ message: 'Successfully deleted' });
                   console.log("ass");
@@ -151,6 +147,24 @@ router.route('/assignment/:assignmentID')
         });
     });
 
+//prova
+router.route('/assignment/findId/:pID')
+  .get(function (req, res) {
+      var find_id = req.params.pID;
+      Assignment.findById(find_id, function (err, assignment) {
+        if (err){
+            res.status(200).send(err)
+        }
+        if (assignment) {
+            res.status(200);
+            res.json(assignment);
+        } else {  // In case no assignment was found with the given query
+            res.status(404);
+            res.json({ message: 'No assignment found' });
+        }
+      });
+
+  });
 
 // middleware route to support CORS and preflighted requests
 app.use(function (req, res, next) {

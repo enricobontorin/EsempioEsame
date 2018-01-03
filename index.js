@@ -150,14 +150,17 @@ router.route('/assignment/:assignmentID')
 //prova
 router.route('/assignment/findId/:pID')
   .get(function (req, res) {
-      var find_id = req.params.pID;
-      Assignment.findById(find_id, function (err, assignment) {
+
+      Assignment.findById(req.params.pID, function (err, assignment) {
         if (err){
             res.status(200).send(err)
         }
         if (assignment) {
             res.status(200);
+            /*
+            i try to do something to generate conflict. Ah now i changhe parameters in the query params*/
             res.json(assignment);
+
         } else {  // In case no assignment was found with the given query
             res.status(404);
             res.json({ message: 'No assignment found' });

@@ -7,12 +7,11 @@ info:
   contact:
     name: Enrico Bontorin
     email: enricobontorin@gmail.com
-    url: http://exams.jointresearch.net
   license:
     name: MIT
     url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
-host: examse2.herokuapp.com
-basePath: /
+host: exam.herokuapp.com
+basePath: /api/
 schemes:
   - https
 consumes:
@@ -20,13 +19,13 @@ consumes:
 produces:
   - application/json
 paths:
-  /assignment:
+  /assignments:
     get:
-      description: Retrieves assigments
+      description: Retrieves assigments 
       operationId: getAssignments
       responses:
         200:
-          description: list of assignments
+          description: list of assignments 
           schema:
             type: array
             items:
@@ -37,10 +36,6 @@ paths:
             $ref: '#/definitions/Error'
         500:
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/Error'
-        default:
-          description: unexpected error
           schema:
             $ref: '#/definitions/Error'
     post:
@@ -62,11 +57,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/Error'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-  /assignment/{id}:
+  /assignments/{id}:
     get:
       description: Returns an assignment
       operationId: findbyassignment id
@@ -79,7 +70,7 @@ paths:
           x-example: 'some-example'
       responses:
         200:
-          description: assignment
+          description: assignment  
           schema:
             items:
               $ref: '#/definitions/Assignment'
@@ -89,10 +80,6 @@ paths:
             $ref: '#/definitions/Error'
         500:
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/Error'
-        default:
-          description: unexpected error
           schema:
             $ref: '#/definitions/Error'
     put:
@@ -125,10 +112,6 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/Error'
-        default:
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/Error'
     delete:
       description: deletes a single assignment based on the ID supplied
       operationId: deleteAssignment
@@ -141,17 +124,13 @@ paths:
           x-example: 'erwtre34-36fws'
       responses:
         200:
-          description: message
+          description: message 
         404:
           description: Not Found
           schema:
             $ref: '#/definitions/Error'
         500:
           description: Internal Server Error
-          schema:
-            $ref: '#/definitions/Error'
-        default:
-          description: unexpected error
           schema:
             $ref: '#/definitions/Error'
 definitions:
@@ -163,12 +142,6 @@ definitions:
         properties:
           assignmentID:
             type: string
-          ipAddress:
-            type: string
-            format: ipv6
-          dateUpdated:
-            type: string
-            format: date-time
   NewAssignment:
     required:
       - workerID

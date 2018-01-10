@@ -63,7 +63,7 @@ router.route('/assignment')
     // accessed at GET http://localhost:8080/api/assignment
     .get(function (req, res) {
         Assignment.find(function (err, assignment) {
-            if (err) { res.send(err); }
+            if (err) { res.status(500).send(err); }
             res.json(assignment);
         });
     });
@@ -77,7 +77,7 @@ router.route('/assignment/:assignmentID')
         Assignment.findOne({assignmentID: req.params.assignmentID}, function (err, assignment) {
             if (err) {
               console.log("err");
-                        res.status(200).send(err)
+                        res.status(500).send(err)
                     }
             if (assignment) {
                   res.status(200);
@@ -99,13 +99,13 @@ router.route('/assignment/:assignmentID')
         // use our assignment model to find the assignment we want
         Assignment.findOne({assignmentID:req.params.assignmentID}, function (err, assignment) {
           if (err) {
-                      res.status(200).send(err)
+                      res.status(500).send(err)
                   }
           if (assignment) {
             assignment.assignmentResult = req.body.assignmentResult;
             // save the assignment
             assignment.save(function (err) {
-                if (err) { res.send(err); }
+                if (err) { res.status(500).send(err); }
                 res.status(200);
                 res.json(assignment);
               });
@@ -131,7 +131,7 @@ router.route('/assignment/:assignmentID')
         }, function (err, assignment) {
             if (err) {
               console.log("err");
-                        res.status(200).send(err)
+                        res.status(500).send(err)
                     }
             if (assignment.n != 0) {
                   res.status(200);
@@ -153,7 +153,7 @@ router.route('/assignment/findId/:pID')
 
       Assignment.findById(req.params.pID, function (err, assignment) {
         if (err){
-            res.status(200).send(err)
+            res.status(500).send(err)
         }
         if (assignment) {
             res.status(200);

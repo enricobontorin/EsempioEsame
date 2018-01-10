@@ -20,13 +20,13 @@ consumes:
 produces:
   - application/json
 paths:
-  /assignments:
+  /assignment:
     get:
-      description: Retrieves assigments 
+      description: Retrieves assigments
       operationId: getAssignments
       responses:
         200:
-          description: list of assignments 
+          description: list of assignments
           schema:
             type: array
             items:
@@ -66,7 +66,7 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /assignments/{id}:
+  /assignment/{id}:
     get:
       description: Returns an assignment
       operationId: findbyassignment id
@@ -79,7 +79,7 @@ paths:
           x-example: 'some-example'
       responses:
         200:
-          description: assignment  
+          description: assignment
           schema:
             items:
               $ref: '#/definitions/Assignment'
@@ -141,7 +141,7 @@ paths:
           x-example: 'erwtre34-36fws'
       responses:
         200:
-          description: message 
+          description: message
         404:
           description: Not Found
           schema:
@@ -166,7 +166,7 @@ definitions:
           ipAddress:
             type: string
             format: ipv6
-          dateUpdated: 
+          dateUpdated:
             type: string
             format: date-time
   NewAssignment:
